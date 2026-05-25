@@ -28,7 +28,7 @@ function App() {
         flexShrink: 0,
       }}>
         <h1 style={{ margin: 0, fontSize: '1.1rem', letterSpacing: 1 }}>
-          L5X Program Viewer
+          L5X Program Web Viewer
         </h1>
         <FileUploader onParsed={handleParsed} />
       </div>
