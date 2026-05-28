@@ -24,7 +24,7 @@ export function FileUploader({ onParsed }: Props) {
 
     try {
       const response = await axios.post<ControllerNode>(
-        `${API_URL}/swagger/l5x/parse`,
+        `${API_URL}/api/l5x/parse`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );

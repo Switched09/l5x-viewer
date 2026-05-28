@@ -73,7 +73,7 @@ export function ReportPanel({ aoiList, l5xFile }: Props) {
       ));
 
       const response = await axios.post(
-        `${API_URL}/swagger/l5x/report`,
+        `${API_URL}/api/l5x/report`,
         formData,
         { responseType: 'blob' }
       );
