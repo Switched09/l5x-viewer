@@ -28,12 +28,20 @@ export interface AoiNode {
   parameters: AoiParameter[];
 }
 
+// PlantPAxParameter to show Input / Output / Internal
+export interface PlantPAxParameter {
+  name: string;
+  dataType: string;
+  direction: 'Input' | 'Output' | 'Internal';
+}
+
 // ── NEW ───────────────────────────────────────────────────────────────────────
 export interface PlantPAxTag {
   name: string;
   dataType: string;
   scope: string;
   description: string;
+  parameters: PlantPAxParameter[];   // ← Parameters of PlantPAx tag
 }
 
 export interface ControllerNode {
