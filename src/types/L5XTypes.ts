@@ -30,7 +30,8 @@ export interface AoiNode {
 // ─────────────────────────────────────────────────────────
 export interface ControllerNode {
   name: string;
+  isPlantPAxTaskingModelEnabled: boolean;  // ← To identify if PlantPAx Tasking Mode is Enabled
   tasks: TaskNode[];
   programs: ProgramNode[];
-  addOnInstructions: AoiNode[]; // ← NEW
+  addOnInstructions: AoiNode[]; // ← To list AOI Instructions
 }
