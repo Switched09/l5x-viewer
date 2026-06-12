@@ -4,9 +4,10 @@ import { TreeView } from './components/TreeView';
 import { AoiList } from './components/AoiList';
 import { AoiParameters } from './components/AoiParameters';
 import { ReportPanel } from './components/ReportPanel';
+import { PlantPAxDataTypes } from './components/PlantPAxDataTypes';
 import { ControllerNode, AoiNode } from './types/L5XTypes';
 
-type RightTab = 'aoi' | 'report';
+type RightTab = 'aoi' | 'report' | 'plantpax';
 
 function App() {
   const [data, setData]               = useState<ControllerNode | null>(null);
@@ -21,9 +22,17 @@ function App() {
     setActiveTab('aoi');
   };
 
+  // Build tab list dynamically — PlantPAx tab only shown when enabled
+  const tabs = [
+    { key: 'aoi'      as RightTab, label: '🔍 AOI Browser',            show: true },
+    { key: 'plantpax' as RightTab, label: '🌿 PlantPAx Active DataTypes', show: !!data?.isPlantPAxTaskingModelEnabled },
+    { key: 'report'   as RightTab, label: '📊 Report Generator',        show: true },
+  ].filter(t => t.show);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'sans-serif' }}>
 
+      {/* ── Top bar ── */}
       <div style={{
         padding: '0.75rem 1.5rem',
         background: '#1e3a5f',
@@ -44,6 +53,7 @@ function App() {
         )}
       </div>
 
+      {/* ── Main content ── */}
       {!data ? (
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999' }}>
           Upload a .L5X file to get started.
@@ -51,6 +61,7 @@ function App() {
       ) : (
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
+          {/* LEFT PANE — Tree View */}
           <div style={{
             width: 300,
             minWidth: 180,
@@ -66,13 +77,12 @@ function App() {
             <TreeView data={data} />
           </div>
 
+          {/* RIGHT PANE — Tabbed */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
+            {/* Tab bar */}
             <div style={{ display: 'flex', borderBottom: '2px solid #e5e7eb', background: '#f9fafb', flexShrink: 0 }}>
-              {([
-                { key: 'aoi',    label: '🔍 AOI Browser' },
-                { key: 'report', label: '📊 Report Generator' },
-              ] as { key: RightTab; label: string }[]).map(tab => (
+              {tabs.map(tab => (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
@@ -93,7 +103,9 @@ function App() {
               ))}
             </div>
 
+            {/* Tab content */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '1rem' }}>
+
               {activeTab === 'aoi' && (
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem', overflow: 'hidden' }}>
                   <div style={{ flex: '0 0 42%', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
@@ -105,11 +117,19 @@ function App() {
                   </div>
                 </div>
               )}
+
+              {activeTab === 'plantpax' && (
+                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+                  <PlantPAxDataTypes tags={data.plantPAxTags} />
+                </div>
+              )}
+
               {activeTab === 'report' && (
                 <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                   <ReportPanel aoiList={data.addOnInstructions} l5xFile={l5xFile} />
                 </div>
               )}
+
             </div>
           </div>
         </div>
