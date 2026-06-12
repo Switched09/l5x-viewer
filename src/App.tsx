@@ -7,10 +7,11 @@ import { ReportPanel } from './components/ReportPanel';
 import { PlantPAxDataTypes } from './components/PlantPAxDataTypes';
 import { ControllerNode, AoiNode } from './types/L5XTypes';
 import { PlantPAxReportPanel } from './components/PlantPAxReportPanel';
+import { PlantPAxParamReportPanel } from './components/PlantPAxParamReportPanel';
 
 
 // type RightTab = 'aoi' | 'report' | 'plantpax';
-type RightTab = 'aoi' | 'plantpax' | 'report' | 'plantpax-report';
+type RightTab = 'aoi' | 'report' | 'plantpax' | 'plantpax-report' | 'plantpax-param-report';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
   { key: 'report'         as RightTab, label: '📊 AOI Report',              show: true },
   { key: 'plantpax'       as RightTab, label: '🌿 PlantPAx Active DataTypes', show: !!data?.isPlantPAxTaskingModelEnabled },
   { key: 'plantpax-report' as RightTab, label: '📋 PlantPAx Report',        show: !!data?.isPlantPAxTaskingModelEnabled },
+  { key: 'plantpax-param-report' as RightTab, label: '📑 PlantPAx Param Report', show: !!data?.isPlantPAxTaskingModelEnabled },
 ].filter(t => t.show);
 
   return (
@@ -140,7 +142,11 @@ function App() {
                   <ReportPanel aoiList={data.addOnInstructions} l5xFile={l5xFile} />
                 </div>
               )}
-
+              {activeTab === 'plantpax-param-report' && (
+              <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', padding: '0.25rem' }}>
+                <PlantPAxParamReportPanel controller={data} l5xFile={l5xFile} />
+              </div>
+            )}
             </div>
           </div>
         </div>
