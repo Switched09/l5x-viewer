@@ -1,5 +1,8 @@
+import axios from 'axios';
 import { useState, useMemo } from 'react';
 import { ControllerNode, PlantPAxParameter } from '../types/L5XTypes';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 interface Props {
   controller: ControllerNode;
@@ -97,7 +100,16 @@ export function PlantPAxParamReportPanel({ controller, l5xFile }: Props) {
       form.append('direction',          direction);
       form.append('selectedParamsJson', JSON.stringify(Array.from(checkedParams)));
 
+
+/*
       const res = await fetch('/api/l5x/plantpax-param-report', {
+        method: 'POST',
+        body: form,
+      });
+
+*/  
+
+      const res = await fetch(API_URL + '/api/l5x/plantpax-param-report', {
         method: 'POST',
         body: form,
       });
