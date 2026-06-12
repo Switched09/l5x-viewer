@@ -101,14 +101,6 @@ export function PlantPAxParamReportPanel({ controller, l5xFile }: Props) {
       form.append('selectedParamsJson', JSON.stringify(Array.from(checkedParams)));
 
 
-/*
-      const res = await fetch('/api/l5x/plantpax-param-report', {
-        method: 'POST',
-        body: form,
-      });
-
-*/  
-
       const res = await fetch(API_URL + '/api/l5x/plantpax-param-report', {
         method: 'POST',
         body: form,
