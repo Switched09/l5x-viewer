@@ -6,10 +6,16 @@ import { AoiParameters } from './components/AoiParameters';
 import { ReportPanel } from './components/ReportPanel';
 import { PlantPAxDataTypes } from './components/PlantPAxDataTypes';
 import { ControllerNode, AoiNode } from './types/L5XTypes';
+import { PlantPAxReportPanel } from './components/PlantPAxReportPanel';
 
-type RightTab = 'aoi' | 'report' | 'plantpax';
+
+// type RightTab = 'aoi' | 'report' | 'plantpax';
+type RightTab = 'aoi' | 'plantpax' | 'report' | 'plantpax-report';
+
 
 function App() {
+
+  
   const [data, setData]               = useState<ControllerNode | null>(null);
   const [l5xFile, setL5xFile]         = useState<File | null>(null);
   const [selectedAoi, setSelectedAoi] = useState<AoiNode | null>(null);
@@ -24,10 +30,11 @@ function App() {
 
   // Build tab list dynamically — PlantPAx tab only shown when enabled
   const tabs = [
-    { key: 'aoi'      as RightTab, label: '🔍 AOI Browser',            show: true },
-    { key: 'plantpax' as RightTab, label: '🌿 PlantPAx Active DataTypes', show: !!data?.isPlantPAxTaskingModelEnabled },
-    { key: 'report'   as RightTab, label: '📊 Report Generator',        show: true },
-  ].filter(t => t.show);
+  { key: 'aoi'            as RightTab, label: '🔍 AOI Browser',             show: true },
+  { key: 'report'         as RightTab, label: '📊 AOI Report',              show: true },
+  { key: 'plantpax'       as RightTab, label: '🌿 PlantPAx Active DataTypes', show: !!data?.isPlantPAxTaskingModelEnabled },
+  { key: 'plantpax-report' as RightTab, label: '📋 PlantPAx Report',        show: !!data?.isPlantPAxTaskingModelEnabled },
+].filter(t => t.show);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'sans-serif' }}>
@@ -123,7 +130,11 @@ function App() {
                   <PlantPAxDataTypes tags={data.plantPAxTags} />
                 </div>
               )}
-
+              {activeTab === 'plantpax-report' && (
+                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+                  <PlantPAxReportPanel controller={data} l5xFile={l5xFile} />
+                </div>
+              )}
               {activeTab === 'report' && (
                 <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                   <ReportPanel aoiList={data.addOnInstructions} l5xFile={l5xFile} />
