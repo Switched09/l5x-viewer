@@ -27,11 +27,37 @@ export interface AoiNode {
   description: string;
   parameters: AoiParameter[];
 }
-// ─────────────────────────────────────────────────────────
+
+// PlantPAxParameter to show Input / Output / Internal
+export interface PlantPAxParameter {
+  name: string;
+  dataType: string;
+  direction: 'Input' | 'Output' | 'Internal';
+}
+
+// ── NEW ───────────────────────────────────────────────────────────────────────
+export interface PlantPAxTag {
+  name: string;
+  dataType: string;
+  scope: string;
+  description: string;
+  parameters: PlantPAxParameter[];   // ← Parameters of PlantPAx tag
+}
+
+// ── NEW to identify PlantPAx <Block> nodes and where are located in the program
+export interface PlantPAxBlock {
+  program: string;
+  routine: string;
+  blockType: string;
+  plantPAxDataType: string;
+  operand: string;
+}
 export interface ControllerNode {
   name: string;
   isPlantPAxTaskingModelEnabled: boolean;  // ← To identify if PlantPAx Tasking Mode is Enabled
   tasks: TaskNode[];
   programs: ProgramNode[];
   addOnInstructions: AoiNode[]; // ← To list AOI Instructions
+  plantPAxTags: PlantPAxTag[];    // ← PlantPAx tags used on embeded instructions for new controller firmware
+  plantPAxBlocks: PlantPAxBlock[];   // PlantPAx <Block> nodes
 }
