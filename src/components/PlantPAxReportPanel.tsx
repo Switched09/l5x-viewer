@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ControllerNode } from '../types/L5XTypes';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 interface Props {
   controller: ControllerNode;
@@ -40,7 +41,7 @@ export function PlantPAxReportPanel({ controller, l5xFile }: Props) {
       const form = new FormData();
       form.append('file', l5xFile);
 
-      const res = await fetch('/api/l5x/plantpax-report', { method: 'POST', body: form });
+      const res = await fetch(API_URL + '/api/l5x/plantpax-report', { method: 'POST', body: form });
       if (!res.ok) {
         const msg = await res.text();
         throw new Error(msg || `Server error ${res.status}`);
