@@ -48,7 +48,7 @@ l5x-viewer/
 ### Prerequisites
 
 - [Node.js 18+](https://nodejs.org/)
-- The [L5X Parser API](https://github.com/<your-username>/L5XParserApi) running locally
+- The [L5X Parser API](https://github.com/Switched09/L5XParserApi) running locally
 
 ### Install and Run
 
